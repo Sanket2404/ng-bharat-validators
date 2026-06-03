@@ -1,16 +1,14 @@
 {
   "name": "ng-bharat-validators",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Angular reactive form validators for Indian formats — PAN, Aadhaar, GSTIN, IFSC, Pincode, Mobile and more. Also works in React, Vue, and Node.js.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
@@ -19,7 +17,6 @@
     "lint": "tsc --noEmit",
     "prepublishOnly": "npm run test && npm run build"
   },
-
   "keywords": [
     "angular",
     "validators",
@@ -37,26 +34,20 @@
     "reactive-forms",
     "typescript"
   ],
-
   "author": "Sanket Jain <sanketjain242000@gmail.com>",
   "license": "MIT",
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sanket2404/ng-bharat-validators.git"
   },
-
   "homepage": "https://github.com/Sanket2404/ng-bharat-validators#readme",
-
   "bugs": {
     "url": "https://github.com/Sanket2404/ng-bharat-validators/issues"
   },
-
   "peerDependencies": {
     "@angular/core": ">=12.0.0",
     "@angular/forms": ">=12.0.0"
   },
-
   "peerDependenciesMeta": {
     "@angular/core": {
       "optional": true
@@ -65,7 +56,6 @@
       "optional": true
     }
   },
-
   "devDependencies": {
     "@angular/core": "^21.2.15",
     "@angular/forms": "^21.2.15",
@@ -76,7 +66,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.0.0"
   },
-
   "engines": {
     "node": ">=14.0.0"
   }
