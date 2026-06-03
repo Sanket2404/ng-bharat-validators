@@ -1,0 +1,10 @@
+src/
+tests/
+coverage/
+*.config.ts
+tsconfig*.json
+jest.config.*
+.gitignore
+.github/
+*.tsbuildinfo
+*.log
