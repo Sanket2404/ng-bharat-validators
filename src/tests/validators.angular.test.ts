@@ -13,8 +13,8 @@ describe('BharatValidators Angular — returns null for empty', () => {
 
 describe('BharatValidators Angular — returns null for valid input', () => {
   test('pan valid', () => expect(BharatValidators.pan()(ctrl('ABCDE1234F'))).toBeNull());
-  test('aadhaar valid', () => expect(BharatValidators.aadhaar()(ctrl('234567890123'))).toBeNull());
-  test('gstin valid', () => expect(BharatValidators.gstin()(ctrl('27ABCDE1234F1Z5'))).toBeNull());
+  test('aadhaar valid', () => expect(BharatValidators.aadhaar()(ctrl('234567890124'))).toBeNull());
+  test('gstin valid', () => expect(BharatValidators.gstin()(ctrl('27ABCDE1234F1Z0'))).toBeNull());
   test('ifsc valid', () => expect(BharatValidators.ifsc()(ctrl('SBIN0005943'))).toBeNull());
   test('pincode valid', () => expect(BharatValidators.pincode()(ctrl('411001'))).toBeNull());
   test('mobile valid', () => expect(BharatValidators.mobile()(ctrl('9876543210'))).toBeNull());
@@ -37,8 +37,9 @@ describe('BharatValidators Angular — returns error object for invalid input', 
     const result = BharatValidators.gstin()(ctrl('INVALID'));
     expect(result!['gstin'].message).toBeDefined();
   });
-  test('ifsc error has value', () => {
+  test('ifsc error does NOT leak the raw value (PII safety)', () => {
     const result = BharatValidators.ifsc()(ctrl('BADIFSC'));
-    expect(result!['ifsc'].value).toBe('BADIFSC');
+    expect(result!['ifsc'].message).toBeDefined();
+    expect(result!['ifsc'].value).toBeUndefined();
   });
 });

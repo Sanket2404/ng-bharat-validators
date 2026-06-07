@@ -1,5 +1,6 @@
 export { BharatUtils } from './validators.raw';
 export { BharatValidators } from './validators.angular';
+export { isAadhaarChecksumValid, isGstinChecksumValid } from './checksums';
 export type { BharatValidationError } from './types';
 export {
   isValidPAN,

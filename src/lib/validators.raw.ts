@@ -16,6 +16,7 @@ import {
 } from './constants';
 
 import { normalize, isSafeInput, removeSpaces, stripMobilePrefix } from './utils';
+import { isAadhaarChecksumValid, isGstinChecksumValid } from './checksums';
 
 export function isValidPAN(value: unknown): boolean {
   const clean = normalize(value);
@@ -27,7 +28,10 @@ export function isValidAadhaar(value: unknown): boolean {
   const clean = normalize(value);
   if (!isSafeInput(clean)) return false;
   const digits = removeSpaces(clean).replace(/-/g, '');
-  return AADHAAR_REGEX.test(digits);
+  if (!AADHAAR_REGEX.test(digits)) return false;
+  // Verify the Verhoeff check digit — rejects typos / made-up
+  // numbers that happen to match the "12 digits, 2–9" shape.
+  return isAadhaarChecksumValid(digits);
 }
 
 export function isValidGSTIN(value: unknown): boolean {
@@ -35,7 +39,9 @@ export function isValidGSTIN(value: unknown): boolean {
   if (!isSafeInput(clean)) return false;
   if (!GSTIN_REGEX.test(clean)) return false;
   const stateCode = parseInt(clean.substring(0, 2), 10);
-  return stateCode >= GSTIN_STATE_MIN && stateCode <= GSTIN_STATE_MAX;
+  if (stateCode < GSTIN_STATE_MIN || stateCode > GSTIN_STATE_MAX) return false;
+  // Verify the 15th-character check digit (GSTN mod-36).
+  return isGstinChecksumValid(clean);
 }
 
 export function isValidIFSC(value: unknown): boolean {

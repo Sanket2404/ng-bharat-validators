@@ -20,9 +20,15 @@ function makeValidator(
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
+    // NOTE: we deliberately do NOT echo the raw control value
+    // back in the error object. These fields hold sensitive PII
+    // (PAN, Aadhaar, etc.) and validator errors often get
+    // serialised into logs / error trackers (Sentry, LogRocket).
+    // The raw value is still available on the control itself if
+    // you genuinely need it. Errors carry only a safe message.
     return fn(control.value)
       ? null
-      : { [key]: { value: control.value, message: MESSAGES[key] } };
+      : { [key]: { message: MESSAGES[key] } };
   };
 }
 

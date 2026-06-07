@@ -3,11 +3,13 @@
 // ─────────────────────────────────────────────────────────
 // SECURITY LIMIT
 // Rejects any input longer than this before running regex.
-// Prevents ReDoS attacks — attacker can't send 10,000 char
-// strings to hang your regex engine.
-// No valid Indian document is longer than 20 characters.
+// Prevents ReDoS attacks — attacker can't send huge strings
+// to hang the regex engine.
+// The longest value we accept is a UPI ID (up to 49 + '@' +
+// 20 = 70 chars). 100 leaves headroom for spaces / prefixes
+// while staying far below any abusive length.
 // ─────────────────────────────────────────────────────────
-export const MAX_INPUT_LENGTH = 500;
+export const MAX_INPUT_LENGTH = 100;
 
 // ─────────────────────────────────────────────────────────
 // REGEX PATTERNS
@@ -25,23 +27,27 @@ export const PAN_REGEX = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
 /**
  * AADHAAR — 12 digits, first digit must be 2–9
- * First digit is never 0 or 1 — UIDAI specification
- * Example: 234567890123
+ * First digit is never 0 or 1 — UIDAI specification.
+ * The 12th digit is a Verhoeff check digit, verified
+ * separately (see checksums.ts).
+ * Example: 234567890124
  */
 export const AADHAAR_REGEX = /^[2-9][0-9]{11}$/;
 
 /**
  * GSTIN — 15 characters
- * Position 1–2:  State code (01–37)
+ * Position 1–2:  State code (01–38)
  * Position 3–12: PAN of entity
  * Position 13:   Entity number (1–9 or A–Z)
  * Position 14:   Always Z
- * Position 15:   Checksum (0–9 or A–Z)
- * Example: 27ABCDE1234F1Z5
+ * Position 15:   Checksum (0–9 or A–Z) — verified, see checksums.ts
+ * Example: 27ABCDE1234F1Z0
  */
 export const GSTIN_REGEX = /^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
 export const GSTIN_STATE_MIN = 1;
-export const GSTIN_STATE_MAX = 37;
+// 38 = Ladakh (added 2019). Codes 97/99 are special and start
+// with 9, which the regex's leading [0-3] already excludes.
+export const GSTIN_STATE_MAX = 38;
 
 /**
  * IFSC — 11 characters

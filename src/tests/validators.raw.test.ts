@@ -28,9 +28,11 @@ describe('PAN Validator', () => {
 });
 
 describe('Aadhaar Validator', () => {
-  test('valid Aadhaar', () => expect(isValidAadhaar('234567890123')).toBe(true));
-  test('valid Aadhaar with spaces', () => expect(isValidAadhaar('2345 6789 0123')).toBe(true));
-  test('valid Aadhaar with hyphens', () => expect(isValidAadhaar('2345-6789-0123')).toBe(true));
+  // 234567890124 carries a valid Verhoeff check digit.
+  test('valid Aadhaar', () => expect(isValidAadhaar('234567890124')).toBe(true));
+  test('valid Aadhaar with spaces', () => expect(isValidAadhaar('2345 6789 0124')).toBe(true));
+  test('valid Aadhaar with hyphens', () => expect(isValidAadhaar('2345-6789-0124')).toBe(true));
+  test('invalid Aadhaar bad checksum', () => expect(isValidAadhaar('234567890123')).toBe(false));
   test('invalid Aadhaar starts with 0', () => expect(isValidAadhaar('012345678901')).toBe(false));
   test('invalid Aadhaar starts with 1', () => expect(isValidAadhaar('123456789012')).toBe(false));
   test('invalid Aadhaar 11 digits', () => expect(isValidAadhaar('23456789012')).toBe(false));
@@ -40,9 +42,11 @@ describe('Aadhaar Validator', () => {
 });
 
 describe('GSTIN Validator', () => {
-  test('valid GSTIN Maharashtra', () => expect(isValidGSTIN('27ABCDE1234F1Z5')).toBe(true));
-  test('valid GSTIN Karnataka', () => expect(isValidGSTIN('29GGGGG0000G1ZA')).toBe(true));
-  test('valid GSTIN lowercase', () => expect(isValidGSTIN('27abcde1234f1z5')).toBe(true));
+  // 27ABCDE1234F1Z0 / 29GGGGG0000G1ZG carry valid mod-36 check digits.
+  test('valid GSTIN Maharashtra', () => expect(isValidGSTIN('27ABCDE1234F1Z0')).toBe(true));
+  test('valid GSTIN Karnataka', () => expect(isValidGSTIN('29GGGGG0000G1ZG')).toBe(true));
+  test('valid GSTIN lowercase', () => expect(isValidGSTIN('27abcde1234f1z0')).toBe(true));
+  test('invalid GSTIN bad checksum', () => expect(isValidGSTIN('27ABCDE1234F1Z5')).toBe(false));
   test('invalid GSTIN state code 99', () => expect(isValidGSTIN('99ABCDE1234F1Z5')).toBe(false));
   test('invalid GSTIN state code 00', () => expect(isValidGSTIN('00ABCDE1234F1Z5')).toBe(false));
   test('invalid GSTIN missing Z', () => expect(isValidGSTIN('27ABCDE1234F1A5')).toBe(false));

@@ -7,6 +7,11 @@
  * a human-readable message so the template can display it
  * without writing any extra code.
  *
+ * NOTE: the raw failed value is intentionally NOT included.
+ * These fields carry sensitive PII (PAN, Aadhaar, etc.) and
+ * error objects frequently end up in logs / error trackers.
+ * Read the value from the form control directly if you need it.
+ *
  * @example
  * // In your Angular template:
  * <span *ngIf="control.errors?.['pan']">
@@ -14,8 +19,6 @@
  * </span>
  */
 export interface BharatValidationError {
-  /** The original value that failed validation */
-  value: string;
   /** Human-readable message shown to the user */
   message: string;
 }
