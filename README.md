@@ -1,5 +1,9 @@
 # ng-bharat-validators
 
+[![npm version](https://img.shields.io/npm/v/ng-bharat-validators.svg)](https://www.npmjs.com/package/ng-bharat-validators)
+[![license](https://img.shields.io/npm/l/ng-bharat-validators.svg)](./LICENSE)
+[![types](https://img.shields.io/npm/types/ng-bharat-validators.svg)](https://www.npmjs.com/package/ng-bharat-validators)
+
 > Angular reactive form validators for Indian formats — PAN, Aadhaar, GSTIN, IFSC, Pincode, Mobile and more.
 > Also works in React, Vue, and Node.js.
 
